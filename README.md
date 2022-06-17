@@ -1,7 +1,7 @@
 # BEAST_TPC_3D_ConvNet
-Example repository containing data processing and analysis tools for event classification and directional assignment of TPC recoil events using 3D convolutional neural networks. We include sample data, a sample trained model, files for the network architecture, custom PyTorch DataLoader classes, and a training/evaluation script.
+Example repository containing data processing and analysis tools for vector directional assignment of TPC recoil events using 3D convolutional neural networks. We include sample data, a sample trained model, a file for the network architecture, a custom PyTorch DataLoader class, and a training/evaluation script.
 
-Not enough data is provided to train the 3DCNN, however calling models/trained.pth in evaluate.py will evaluate head-tail on the generated tensors.
+Not enough data is provided to train the 3DCNN, however calling models/trained.pth in evaluate.py will evaluate head-tail using a trained 3DCNN on the generated tensors. models/trained.pth was trained using hundreds of thousands of simulated recoil events.
 
 ### Recommended usage order after cloning:
 1. Extract tensors from tarball using tar -xvf tensors.tar.gz tensors
