@@ -5,7 +5,7 @@ Not enough data is provided to train the 3DCNN, however calling models/trained.p
 
 ### Recommended usage order after cloning:
 1. Extract tensors from tarball using tar -xvf tensors.tar.gz tensors
-2. Run evaluate.py **(Note, pyarrow is required to read the feather files and can be installed using either pip or anaconda)**
+2. Run evaluate.py **(Note: pyarrow is required to read and write feather files through pandas and can be installed using either pip or anaconda)**
 3. Analyze the results of the output file. An example analysis is shown in analyze_output.ipynb
 
 ### Alternatively you can generate tensors yourself
