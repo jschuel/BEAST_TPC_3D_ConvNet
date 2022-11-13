@@ -1,7 +1,7 @@
 # BEAST_TPC_3D_ConvNet
-Example repository containing data processing and analysis tools for vector directional assignment of TPC recoil events using 3D convolutional neural networks. We include sample data, a sample trained model, a file for the network architecture, a custom PyTorch DataLoader class, and a training/evaluation script.
+Example repository containing data processing and analysis tools for vector directional assignment of TPC recoil events using 3D convolutional neural networks. We include sample data, sample trained models, a file for the network architecture, a custom PyTorch DataLoader class, and training/evaluation scripts.
 
-The trained model was trained using ~500,000 images, whereas the sample we include here only has 10,000 images. This is still a large enough sample to train your own model if you would like, however you won't get as good of performance training using the 10,000 images as you would with our pretrained model (pretrained models used 10-fold cross validation. Model weight files can be found in `ConvNet/models/fold*.pth`).
+The trained models were trained using ~500,000 images with 10-fold cross validation. The sample we include here only has 10,000 images. which is still a large enough sample to train your own model if you would like, however you won't get as good of performance training using the 10,000 images as you would with our pretrained models (pretrained model weight files can be found in `ConvNet/models/fold*.pth`).
 
 ### Recommended usage order after cloning:
 1. Extract tensors from tarball using `tar -xvf tensors.tar.gz` tensors
@@ -16,5 +16,5 @@ The trained model was trained using ~500,000 images, whereas the sample we inclu
 4. Run **`scripts/evaluate_cv.py`**
 5. Analyze the results of the output file. An example analysis is shown in **`Analysis/analyze_output.ipynb`**
 
-#### Image of a similar, yet different network architecture used for directional classification in the BEAST TPCs:
+#### Image I created of a similar but slightly different network architecture to `ConvNet/model.py` that was previously used for directional classification in the BEAST TPCs:
 ![plot](./misc_images/architecture_example.png)
