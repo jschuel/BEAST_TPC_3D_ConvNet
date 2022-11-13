@@ -5,14 +5,15 @@ The trained model was trained using ~500,000 images, whereas the sample we inclu
 
 ### Recommended usage order after cloning:
 1. Extract tensors from tarball using `tar -xvf tensors.tar.gz` tensors
-2. Run **`evaluate.py`** **(Note: pyarrow is required to read and write feather files through pandas and can be installed using either pip or anaconda)**
-3. Analyze the results of the output file. An example analysis is shown in **`analyze_output.ipynb`**
+2. Run **`scripts/evaluate_cv.py`** **(Note: pyarrow is required to read and write feather files through pandas and can be installed using either pip or anaconda)**
+3. Analyze the results of the output file. An example analysis is shown in **`Analysis/analyze_output.ipynb`**
+4. **Optional**: You can also train your own models using the **`train_cv.py`** in the `**`scripts`** directory.
 
 ### Alternatively you can generate tensors yourself
 1. Create an empty folder in the parent directory called `tensors`
 2. Open up a jupyter notebook session and run through each cell of **`data_processing/Labeling_and_tensors.ipynb`**
 3. After step (2) you will have generated tensors for all 10,000 events
-4. Run **`ConvNet/evaluate_cv.py`**
+4. Run **`scripts/evaluate_cv.py`**
 5. Analyze the results of the output file. An example analysis is shown in **`Analysis/analyze_output.ipynb`**
 
 #### Image of a similar, yet different network architecture used for directional classification in the BEAST TPCs:
