@@ -1,3 +1,9 @@
+'''Updated 11/12/2022
+Script to evaluate a trained 3DCNN using k-folds cross validation. This script will evaluate the positive class output by
+evaluating each of the k models used in the k-folds training and will compute the mean of those probabilities for each
+event. The number of folds we use for our evaluation, as well as the file path corresponding to the trained model weights
+of each fold can be adjusted under the if __name__ =='__main__' clause at the bottom of this script.'''
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,6 +13,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from tqdm import tqdm
+import sys
+sys.path.append('../ConvNet/')
 from model import net
 from dataset import Dataset
 
@@ -35,10 +43,10 @@ class evaluate:
         self.data['prob_err'] = np.array([probs[i] for i in range(0,len(probs))]).T.std(axis = 1) #compute std dev of all folds
         self.data['truth'] = np.concatenate(self.truth).ravel()
         if save == True:
-            self.data.to_feather("data/sample_evaluated.feather")
+            self.data.to_feather("../data/sample_evaluated.feather")
             
     def load_data(self):
-        data = pd.read_feather("data/sample_noHits.feather")
+        data = pd.read_feather("../data/sample_noHits.feather")
         return data
 
     def define_generators(self, test_ids, batch_size, num_workers):
@@ -70,6 +78,6 @@ class evaluate:
 
 
 if __name__ == '__main__':
-    PATH = 'models/g1320_10-300keVr_128_fold'
+    PATH = '../ConvNet/models/fold'
     nfolds = 10
-    evaluate(batch_size = 512, num_workers = 12, PATH = PATH, nfolds = nfolds)
+    evaluate(batch_size = 128, num_workers = 12, PATH = PATH, nfolds = nfolds)

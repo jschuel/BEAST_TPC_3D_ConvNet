@@ -1,3 +1,9 @@
+'''Updated 11/12/2022
+Script to train the 3DCNN using k-folds cross validation with early stopping.
+The number of epochs, early stopping rounds, and number of cross validation folds
+can be set at the bottom of this file under the if __name__ == '__main__' clause'''
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,6 +14,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from tqdm import tqdm
+import sys
+sys.path.append('../ConvNet/')
+
 from model import net
 from dataset import Dataset
 
@@ -28,7 +37,7 @@ class train:
         self.indices = self.data.index.to_numpy() #Indices are fed into the dataloader
         
         for i, (train_index, val_index) in enumerate(self.skf.split(self.indices,self.indices)):
-            self.outPATH = outPATH+'%s2.pth'%(i+1) #give the fold-number of the model weights in the model name
+            self.outPATH = outPATH+'%s.pth'%(i+1) #give the fold-number of the model weights in the model name
             self.trainloader, self.valloader = self.define_generators(train_index, val_index, batch_size=batch_size, num_workers = num_workers) #generate data loaders for each split
             self.net = net() #initialize untrained network at each fold
             self.net.to(self.device)
@@ -125,9 +134,11 @@ class train:
             self.net.train()
 
 if __name__ == '__main__':
-    nepoch = 1000
-    inPATH = '.'
-    outPATHbase = 'models/fold2'
-    nfold = 10
-    estop = 10
-    train(n_epochs = nepoch, batch_size = 128, num_workers = 12, learning_rate = 0.0002, inPATH = inPATH, outPATH = outPATHbase, e_stop = estop, nfold = nfold, retrain = False)
+    max_epoch = 1000 #number of training epochs if early stopping doesn't terminate sooner
+    inPATH = '.' #Insert a pytorch trained model here and set retrain to True if you'd like to retrain a model
+    outPATHbase = '../ConvNet/models/new_train_fold' #Regardless of whether you retrain or train from scratch your model will be saved here
+    nfold = 10 #Number of cross validation folds
+    early_stopping_rounds = 10 #If the number of successive epochs with no improvement in validation loss exceeds this number, then the training will terminate early.
+
+    #Train the model
+    train(n_epochs = max_epoch, batch_size = 128, num_workers = 12, learning_rate = 0.0002, inPATH = inPATH, outPATH = outPATHbase, e_stop = early_stopping_rounds, nfold = nfold, retrain = False)
