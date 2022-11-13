@@ -16,5 +16,5 @@ The trained models were trained using ~500,000 images with 10-fold cross validat
 4. Run **`scripts/evaluate_cv.py`**
 5. Analyze the results of the output file. An example analysis is shown in **`Analysis/analyze_output.ipynb`**
 
-#### Image of a similar, yet different network architecture used for directional classification in the BEAST TPCs:
+#### Image I created of a similar but slightly different network architecture to `ConvNet/model.py` that was previously used for directional classification in the BEAST TPCs:
 ![plot](./misc_images/architecture_example.png)
