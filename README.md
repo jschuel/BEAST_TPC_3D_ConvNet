@@ -16,4 +16,4 @@ Not enough data is provided to train the 3DCNN, however calling models/trained.p
 5. Analyze the results of the output file. An example analysis is shown in analyze_output.ipynb
 
 
-![plot](./architecture_example.png)
+![plot](./misc_images/architecture_example.png)
