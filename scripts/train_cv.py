@@ -24,11 +24,11 @@ from dataset import Dataset
 class train:
     def __init__(self, n_epochs, batch_size, num_workers,  learning_rate, inPATH, outPATH, e_stop = 10, nfold = 10, retrain = False):
         self.data = self.load_data()
-        self.inPATH = inPATH
-        self.nfold = nfold
-        self.e_stop = e_stop
+        self.inPATH = inPATH    # Use '.' if you don't want to load a pretrained model, otherwise use the file path of the model you'd like to load
+        self.nfold = nfold      # Number of cross validation folds
+        self.e_stop = e_stop    # Number of successive rounds without validation loss improvement before commencing early stopping
         self.lr = learning_rate
-        self.epochs = n_epochs
+        self.epochs = n_epochs  # Maximum number of epochs if early stoppin isn't initialized
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         print('Device: %s'%(self.device))
 
@@ -134,11 +134,11 @@ class train:
             self.net.train()
 
 if __name__ == '__main__':
-    max_epoch = 1000 #number of training epochs if early stopping doesn't terminate sooner
-    inPATH = '.' #Insert a pytorch trained model here and set retrain to True if you'd like to retrain a model
+    max_epoch = 1000                                 #number of training epochs if early stopping doesn't terminate sooner
+    inPATH = '.'                                     #Insert a pytorch trained model here and set retrain to True if you'd like to retrain a model
     outPATHbase = '../ConvNet/models/new_train_fold' #Regardless of whether you retrain or train from scratch your model will be saved here
-    nfold = 10 #Number of cross validation folds
-    early_stopping_rounds = 10 #If the number of successive epochs with no improvement in validation loss exceeds this number, then the training will terminate early.
+    nfold = 10                                       #Number of cross validation folds
+    early_stopping_rounds = 10                       #If the number of successive epochs with no improvement in validation loss exceeds this number, then the training will terminate early.
 
-    #Train the model
+    ### Train the model ###
     train(n_epochs = max_epoch, batch_size = 128, num_workers = 12, learning_rate = 0.0002, inPATH = inPATH, outPATH = outPATHbase, e_stop = early_stopping_rounds, nfold = nfold, retrain = False)

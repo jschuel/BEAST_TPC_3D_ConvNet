@@ -22,7 +22,7 @@ from dataset import Dataset
 class evaluate:
     def __init__(self, batch_size, num_workers, PATH, nfolds = 10, save = True):
         self.data = self.load_data()
-        self.PATH = PATH
+        self.PATH = PATH #File path of trained model
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         print('Device: %s'%(self.device))
         
@@ -30,23 +30,23 @@ class evaluate:
         self.testloader = self.define_generators(self.test_ids, batch_size=batch_size, num_workers = num_workers)
 
         probs = []
-        for fold in range(nfolds):
+        for fold in range(nfolds): #Loop through the number of folds you used when training the model
             print("EVALUATING FOLD %s of %s\n"%(fold+1, nfolds))
             self.net = net()
             self.net.to(self.device)
             self.PATH = PATH+'%s.pth'%(fold+1)
-            self.truth, self.prob = self.evaluate()
-            probs.append(np.concatenate(self.prob).ravel())
+            self.truth, self.prob = self.evaluate() #Evaluate network at each fold 
+            probs.append(np.concatenate(self.prob).ravel()) #Record all classification probabilities
 
         probs = np.array(probs) #make numpy array to evaluate probabilities
-        self.data['prob'] = np.array([probs[i] for i in range(0,len(probs))]).T.mean(axis = 1) #compute mean of all folds
-        self.data['prob_err'] = np.array([probs[i] for i in range(0,len(probs))]).T.std(axis = 1) #compute std dev of all folds
+        self.data['prob'] = np.array([probs[i] for i in range(0,len(probs))]).T.mean(axis = 1) #compute mean classification probability over all folds
+        self.data['prob_err'] = np.array([probs[i] for i in range(0,len(probs))]).T.std(axis = 1) #compute std dev over all folds
         self.data['truth'] = np.concatenate(self.truth).ravel()
         if save == True:
-            self.data.to_feather("../data/sample_evaluated.feather")
+            self.data.to_feather("../data/sample_evaluated.feather") #Save output dataframe
             
     def load_data(self):
-        data = pd.read_feather("../data/sample_noHits.feather")
+        data = pd.read_feather("../data/sample_noHits.feather") #Load data
         return data
 
     def define_generators(self, test_ids, batch_size, num_workers):
@@ -70,7 +70,7 @@ class evaluate:
                 data_t, target_t = data_t.to(self.device), target_t.to(self.device)
                 outputs_t = self.net(data_t)
                 _,pred_t = torch.max(outputs_t, dim=1)
-                sm = torch.nn.Softmax(dim = 1)
+                sm = torch.nn.Softmax(dim = 1) #Compute probabilities using softmax
                 y_true_list.append(target_t.cpu().numpy())
                 y_pred_prob.append(sm(outputs_t).cpu().numpy()[:,1])
                 
